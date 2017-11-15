@@ -1,0 +1,66 @@
+* {
+    font-family: monospace;
+}
+.window {
+    background-color: #AAA;
+    position: fixed;
+    width: 50%;
+    height: 50%;
+    left: 10%;
+    top: 10%;
+    resize: both;
+    overflow: auto;
+    border-radius: 3px;
+    -webkit-transition: top 1s;
+    -moz-transition: top 1s;
+    transition: top 1s;
+}
+.bar {
+    position: relative;
+    top: 0;
+    
+    margin-top: 0;
+    width: 100%;
+    background-color: #777;
+    float: left;
+}
+.bar p {
+    padding-left: 2vh;
+}
+.close {
+    float: right;
+    position: absolute;
+    top: 1vh;
+    right: 1vh;
+    color: #AA0000;
+    font-size: 3vh;
+}
+.close:hover {
+    color: #880000;
+    cursor: pointer;
+}
+.body {
+    padding: 2vh 2vh;
+}
+.apps {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 5%;
+    height: 100%;
+    background-color: green;
+    text-align: center;
+}
+.open {
+    width: 90%;
+    margin-top: 2vh;
+    height: auto;
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 3vh 3vh;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2vh;
+}
