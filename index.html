@@ -9,23 +9,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="script.js"></script>
   <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
 <body>
-<div class="wallpaper">
+<div ondragstart="drag(event)" class="wallpaper">
   <div class="wp-blur"></div>
   <!--div class="wp-divider"></div-->
 </div>
 
 <div class="apps">
-  <button class="open" id="open0" onclick="open0()">Open</button>
+  <img src="settings.png" class="open" id="open0" onclick="open0()"></img>
 </div>
 
 <div id="desktop">
     <div class="window" id="window0">
-      <div class="bar" id="bar0"><p id="title0">Application</p><span id="close0" class="close" onclick="close0()">&times;</span></div>
+      <div class="bar" id="bar0"><p id="title0">Settings</p><span id="close0" class="close" onclick="close0()">&times;</span></div>
       <div class="body" id="body0">
-        <h1>stuff in app</h1>
+        <h1>Settings</h1>
       </div>
     </div>
 </div>

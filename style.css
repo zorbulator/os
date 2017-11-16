@@ -1,10 +1,9 @@
 * {
-    font-family: monospace;
+    font-family: 'Roboto', sans-serif;
     user-select: none;
 }
 .window {
-    background-color: #AAA;
-    position: fixed;
+    position: absolute;
     width: 50%;
     height: 50%;
     left: 10%;
@@ -15,13 +14,14 @@
     -webkit-transition: top 1s;
     -moz-transition: top 1s;
     transition: top 1s;
+    background-color: #F0F0F0;
 }
 .bar {
     position: relative;
     top: 0;
     margin-top: 0;
     width: 100%;
-    background-color: #777;
+    background-color: #444;
     float: left;
 }
 .bar p {
@@ -34,6 +34,7 @@
     right: 1vh;
     color: #AA0000;
     font-size: 3vh;
+    transition: 0.2s;
 }
 .close:hover {
     color: #880000;
@@ -53,16 +54,22 @@
 }
 .open {
     width: 90%;
-    margin-top: 2vh;
     height: auto;
-    background-color: #4CAF50; /* Green */
+    background-color: white;
     border: none;
-    color: white;
-    padding: 3vh 3vh;
+    padding: 0;
+    margin-top: 2vh;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 2vh;
+    border-radius: 3px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.open:hover {
+    background-color: #A01010;
 }
 
 .wallpaper {
@@ -80,7 +87,7 @@
     height: 100%;
     margin-left: -20px;
     float: left;
-    filter: blur(10px);
+    filter: blur(10px) brightness(1.2);
     z-index: -2;
     object-fit: cover;
     background: url(background.png);
@@ -92,3 +99,4 @@
     background-color: red;
     z-index: 1;
 }
+
