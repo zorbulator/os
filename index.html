@@ -13,26 +13,32 @@
 </head>
 
 <body>
-<div ondragstart="drag(event)" class="wallpaper">
-  <div class="wp-blur"></div>
-  <!--div class="wp-divider"></div-->
-</div>
+  <div ondragstart="drag(event)" class="wallpaper" id="wallpaper">
+    <div class="blur-container">
+      <div class="wp-blur"></div>
+    </div>
 
-<div class="apps">
-  <img src="settings.png" class="open" id="open0" onclick="open0()"></img>
-</div>
+    <!--div class="wp-divider"></div-->
+  </div>
 
-<div id="desktop">
+  <div class="apps">
+    <img src="settings.png" class="open" id="open0" onclick="open0()"></img>
+  </div>
+
+  <div id="desktop">
     <div class="window" id="window0">
-      <div class="bar" id="bar0"><p id="title0">Settings</p><span id="close0" class="close" onclick="close0()">&times;</span></div>
+      <div class="bar" id="bar0">
+        <p id="title0">Settings</p><span id="close0" class="close" onclick="close0()">&times;</span></div>
       <div class="body" id="body0">
-        <h1>Settings</h1>
+        <p class="settingLabel">Background: <input id="backgroundInput" class="settingInput" type="text"></p>
+        <button onclick="backgroundReset()" class="settingButton">Reset Background</button>
+        <button onclick="settingSave()" class="settingSave">Save</button>
       </div>
     </div>
-</div>
+  </div>
 
 
-  
+
 </body>
 
 </html>

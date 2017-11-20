@@ -2,18 +2,17 @@
     font-family: 'Roboto', sans-serif;
     user-select: none;
 }
+
+
 .window {
     position: absolute;
     width: 50%;
     height: 50%;
     left: 10%;
-    top: 10%;
+    top: -100%;
     resize: both;
     overflow: auto;
     border-radius: 3px;
-    -webkit-transition: top 1s;
-    -moz-transition: top 1s;
-    transition: top 1s;
     background-color: #F0F0F0;
 }
 .bar {
@@ -79,24 +78,65 @@
     top: 0;
     left: 0;
     z-index: -100;
-    background: url(background.png);
+    --background: url(background.png);
+    background: var(--background);
+    background-size: cover;
 }
 
 .wp-blur {
-    width: calc(6% + 20px);
-    height: 100%;
-    margin-left: -20px;
-    float: left;
-    filter: blur(10px) brightness(1.2);
+    width: 500%;
+    height: 500%;
+    filter: blur(10px) brightness(0.9);
     z-index: -2;
-    object-fit: cover;
-    background: url(background.png);
-}
-.wp-divider {
-    height: 100%;
-    width: 5%;
-    margin-left: calc(6% - 20px);
-    background-color: red;
-    z-index: 1;
+    background: var(--background);
+    margin-left: -2vh;
 }
 
+.blur-container {
+    width: 5%;
+    height: 100%;
+    position: fixed;
+    float: left;
+    overflow: hidden;
+}
+
+.settingLabel {
+     float: left;
+     font-size: 2vh;
+}
+.settingInput {
+    border: 1px solid #888;
+    border-radius: 4px;
+    font-size: 2vh;
+    width: 40vh;
+}
+.settingSave {
+    position: absolute;
+    bottom: 1vh;
+    left: 1vh;
+    transition: .5s;
+    font-size: 2vh;
+    padding: 2vh 3vh;
+    background-color: #117711;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+.settingSave:hover {
+    background-color: #225522;
+}
+.settingButton {
+    position: absolute;
+    top: 15vh;
+    left: 1vh;
+    transition: .5s;
+    font-size: 2vh;
+    padding: 1vh 2vh;
+    background-color: #AAA;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+.settingButton:hover {
+    background-color: #777;
+}

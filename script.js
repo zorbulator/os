@@ -6,18 +6,21 @@ var mouseX = 0;
 var mouseY = 0;
 
 function open0() {
+    windows[0].style.transition = 'top 0.5s';
     windows[0].style.top = '10%';
+    setTimeout(function() {windows[0].style.transition = 'none';}, 500);
 }
 
 function close0() {
+    windows[0].style.transition = 'top 0.5s';
     windows[0].style.top = '-100%';
+    setTimeout(function() {windows[0].style.transition = 'none';}, 500);
 }
 
 window.onkeypress = function(event) {
     var x = event.which || event.keyCode;
     if (x == 102) {
-        alert(windows[0].id);
-        alert(document.getElementsByClassName("bar")[0].id);
+        alert(document.getElementById('wallpaper').style.getPropertyValue('--background') == 'white');
     }
 }
 /*
@@ -36,7 +39,7 @@ function undrag() {
 }*/
 //Make the DIV element draggagle:
 window.onload = function() {
-    dragElement(document.getElementById(("window0")));
+    dragElement(document.getElementById("window0"));
 }
 
 
@@ -77,4 +80,11 @@ function dragElement(elmnt) {
     document.onmouseup = null;
     document.onmousemove = null;
   }
+}
+
+function settingSave() {
+    document.getElementById('wallpaper').style.setProperty('--background', document.getElementById('backgroundInput').value);
+}
+function backgroundReset() {
+    document.getElementById('wallpaper').style.setProperty('--background', 'url(background.png)');
 }
