@@ -17,6 +17,18 @@ function close0() {
     setTimeout(function() {windows[0].style.transition = 'none';}, 500);
 }
 
+function open1() {
+    windows[1].style.transition = 'top 0.5s';
+    windows[1].style.top = '10%';
+    setTimeout(function() {windows[1].style.transition = 'none';}, 500);
+}
+
+function close1() {
+    windows[1].style.transition = 'top 0.5s';
+    windows[1].style.top = '-100%';
+    setTimeout(function() {windows[1].style.transition = 'none';}, 500);
+}
+
 window.onkeypress = function(event) {
     var x = event.which || event.keyCode;
     if (x == 102) {
@@ -40,6 +52,7 @@ function undrag() {
 //Make the DIV element draggagle:
 window.onload = function() {
     dragElement(document.getElementById("window0"));
+    dragElement(document.getElementById("window1"));
 }
 
 
