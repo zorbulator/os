@@ -57,10 +57,11 @@ window.onload = function() {
 
 
 function dragElement(elmnt) {
+  var index = elmnt.id.substring(6);
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById("bar0")) {
+  if (document.getElementById("bar" + index)) {
     /* if present, the header is where you move the DIV from:*/
-    document.getElementById("bar0").onmousedown = dragMouseDown;
+    document.getElementById("bar" + index).onmousedown = dragMouseDown;
   } else {
     /* otherwise, move the DIV from anywhere inside the DIV:*/
     elmnt.onmousedown = dragMouseDown;
@@ -74,6 +75,10 @@ function dragElement(elmnt) {
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
+    for (i = 0; i < windows.length; i++) {
+        windows[i].style.zIndex = "1";
+    }
+    elmnt.style.zIndex = "2";
   }
 
   function elementDrag(e) {
@@ -101,3 +106,44 @@ function settingSave() {
 function backgroundReset() {
     document.getElementById('wallpaper').style.setProperty('--background', 'url(background.png)');
 }
+
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  }
+  
+  function getCode() {
+    var name = document.getElementById('name').value;
+    var code = document.getElementById('code').value;
+    var css = document.getElementById('css').value;
+    var js = document.getElementById('js').value;
+  }
+  
+  function run() {
+    getCode();
+    document.getElementById('htmlBox').style.display = 'block';
+    document.getElementById('htmlBox').innerHTML = document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style>";
+    eval(document.getElementById('js').value);
+    
+  }
+  
+  document.addEventListener("keydown", function(event) {
+        if (event.which == 27) {
+          document.getElementById('htmlBox').style.display = 'none';
+      }
+  });
+  
+  // Start file download.
+  function download() {
+    getCode();
+    download(name + ".html","<html>" + code + "<style>" + css + "</style> <script>" + js + "</script>" + "</html>");
+    download(document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>");
+  }

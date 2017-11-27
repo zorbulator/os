@@ -11,9 +11,13 @@
     left: 10%;
     top: -100%;
     resize: both;
-    overflow: auto;
+    overflow: hidden;
     border-radius: 3px;
     background-color: #F0F0F0;
+    box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.5);
+    z-index: 1;
+    min-width: 50vh;
+    min-height: 50vh;
 }
 .bar {
     position: relative;
@@ -41,6 +45,8 @@
 }
 .body {
     padding: 2vh 2vh;
+    width: 100%;
+    height: 60%;
 }
 .apps {
     position: fixed;
@@ -139,4 +145,64 @@
 }
 .settingButton:hover {
     background-color: #777;
+}
+#name {
+    width: 90%;
+    float: left;
+    font-size: 2vh;
+    margin-top: 1vh;
+}
+  
+
+.content {
+    padding: 2vh 2vh;
+    width: 90%;
+    height: 90%;
+}
+#code {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
+#js {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
+#css {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
+.button {
+    background-color: green;
+    border: none;
+    padding: 1vh 1vh;
+    border-radius: 2px;
+    transition: 0.3s;
+    cursor: pointer;
+    font-size: 2vh;
+}
+.button:hover {
+    background-color: #005500;
+}
+
+#htmlBox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999999999999999;
+    background-color: white;
+    display: none;
 }

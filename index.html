@@ -26,6 +26,8 @@
     <img src="html.png" class="open" id="open1" onclick="open1()"></img>
   </div>
 
+  <div id="htmlBox"></div>
+
   <div id="desktop">
     <div class="window" id="window0">
       <div class="bar" id="bar0">
@@ -40,7 +42,13 @@
       <div class="bar" id="bar1">
         <p id="title0">HTML</p><span id="close1" class="close" onclick="close1()">&times;</span></div>
       <div class="body" id="body1">
-        <p>test</p>
+          <input placeholder="Name" id="name">
+          <textarea placeholder="HTML" id="code"></textarea>
+          <textarea placeholder="JS" id="js"></textarea>
+          <textarea placeholder="CSS" id="css"></textarea>
+          <br>
+          <button class="button" onclick="run()">Run</button>
+          <button class="button" onclick="download()">Download</button>
       </div>
     </div>
   </div>
