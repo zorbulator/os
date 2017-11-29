@@ -7,7 +7,7 @@
   <meta name="author" content="">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="script.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Fira+Mono" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
@@ -26,7 +26,6 @@
     <img src="html.png" class="open" id="open1" onclick="open1()"></img>
   </div>
 
-  <div id="htmlBox"></div>
 
   <div id="desktop">
     <div class="window" id="window0">
@@ -42,19 +41,22 @@
       <div class="bar" id="bar1">
         <p id="title0">HTML</p><span id="close1" class="close" onclick="close1()">&times;</span></div>
       <div class="body" id="body1">
-          <input placeholder="Name" id="name">
-          <textarea placeholder="HTML" id="code"></textarea>
-          <textarea placeholder="JS" id="js"></textarea>
-          <textarea placeholder="CSS" id="css"></textarea>
-          <br>
-          <button class="button" onclick="run()">Run</button>
-          <button class="button" onclick="download()">Download</button>
+        <input placeholder="File Name" id="htmlName">
+        <br>
+        <textarea placeholder="HTML" class="codeBox" id="html"></textarea>
+        <textarea placeholder="CSS" class="codeBox" id="css"></textarea>
+        <textarea placeholder="JS" class="codeBox" id="js"></textarea>
+        <input class="htmlSlider" id="htmlSlider0" type="range" min="0" max="90" value="30" oninput="htmlSliderChange()" onchange="htmlSliderChange()">
+        <input class="htmlSlider" id="htmlSlider1" type="range" min="0" max="90" value="60" oninput="htmlSliderChange()" onchange="htmlSliderChange()">
+        <br>
+        <button class="button" id="openCode">Open</button>
+        <button class="button" id="downloadCode">Download</button>
       </div>
     </div>
   </div>
 
 
-
+  <script src="script.js"></script>
 </body>
 
 </html>
