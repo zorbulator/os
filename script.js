@@ -1,6 +1,8 @@
 var windows = document.getElementsByClassName('window');
 var close = document.getElementsByClassName("close");
+var open = document.getElementsByClassName("open");
 
+Lockr.set("files", [{name: "file.zorb", type: "html", content: "<p>This is working!</p>", css: "p { color: red; }", js: "alert('this works!');"}]);
 var mouseX = 0;
 var mouseY = 0;
 
@@ -28,12 +30,6 @@ function close1() {
     setTimeout(function() {windows[1].style.transition = 'none';}, 500);
 }
 
-window.onkeypress = function(event) {
-    var x = event.which || event.keyCode;
-    if (x == 102) {
-        alert(document.getElementById('wallpaper').style.getPropertyValue('--background') == 'white');
-    }
-}
 /*
 function drag(event) {
     var dragTimer = setInterval(function() {
@@ -49,10 +45,34 @@ function undrag() {
     clearInterval(dragTimer);
 }*/
 //Make the DIV element draggagle:
+
+function drawFiles() {
+    files = Lockr.get('files');
+    for (i = 0; i < files.length; i++) {
+        if (files[i].top == undefined) {
+            files[i].top = 200;
+            files[i].left = 500;
+            Lockr.set("files", files);
+        }
+        if (document.getElementById('file_' + i) == null) {
+            var file = document.createElement("div");
+            file.id = 'file_' + i;
+            file.className = "file";
+            file.style.top = files[i].top + "px";
+            file.style.left = files[i].left + "px";
+            document.getElementById('desktop').appendChild(file);
+            dragElement(file);
+        }
+    }
+}
 window.onload = function() {
     dragElement(document.getElementById("window0"));
     dragElement(document.getElementById("window1"));
+    drawFiles();
+    alert(Lockr.get('files')[0].top);
+
 }
+
 
 
 function dragElement(elmnt) {
@@ -90,6 +110,12 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    if (elmnt.className == "file") {
+        files = Lockr.get('files');
+        files[Number(elmnt.id.substring(5))].top = (elmnt.offsetTop - pos2);
+
+        Lockr.set("files", files);
+    }
   }
 
   function closeDragElement() {
@@ -106,69 +132,44 @@ function backgroundReset() {
     document.getElementById('wallpaper').style.setProperty('--background', 'url(background.png)');
 }
 
-function openwindow(code) {
-    var x=window.open();
-    x.document.open();
-    x.document.write(code);
-    x.document.close();
-    //window.open('data:text/html;charset=utf-8,' + encodeURIComponent("code"));
-}
-//openwindow("test");
-  //var html = String(document.getElementById('html').value);
-  
-  var html = "";
-  var css = "";
-  var js = "";
-  var code = "";
-
-  
-  function download(filename, text) {
-
+function download(filename, text) {
     var element = document.createElement('a');
-
-    element.setAttribute('href', 'data:text/html;charset=utf-8,' + encodeURIComponent(text));
-
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
-
+  
     element.style.display = 'none';
-
     document.body.appendChild(element);
-
+  
     element.click();
-
+  
     document.body.removeChild(element);
-
   }
   
-  function generateCode() {
-    html = document.getElementById('html').value;
-    css = document.getElementById('css').value;
-    js = document.getElementById('js').value;
-    code = html + "<st"+"yle>" + css + "</st"+"yle> <scr"+"ipt>" + js + "</scr"+"ipt>";
+  function getCode() {
+    var name = document.getElementById('name').value;
+    var code = document.getElementById('code').value;
+    var css = document.getElementById('css').value;
+    var js = document.getElementById('js').value;
   }
   
-  document.getElementById('openCode').onclick = function() {
-    generateCode();
-    openwindow(code);
-  }
-  document.getElementById('downloadCode').onclick = function() {
-     generateCode();
-     download(document.getElementById('htmlName').value + ".html", code);
-  }
-  
-  document.getElementById('htmlSlider0').oninput = htmlSliderChange;
-  document.getElementById('htmlSlider1').oninput = htmlSliderChange;
-  function htmlSliderChange() {
-  //alert('test');
-      if(document.getElementById('htmlSlider0').value >= document.getElementById('htmlSlider1').value) {
-     document.getElementById('htmlSlider0').value = document.getElementById('htmlSlider1').value - 1;
-    }
-    document.getElementById('html').style.width = document.getElementById('htmlSlider0').value + "%";
+  function run() {
+    getCode();
+    document.getElementById('htmlBox').style.display = 'block';
+    document.getElementById('htmlBox').innerHTML = document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style>";
+    eval(document.getElementById('js').value);
     
-    document.getElementById('css').style.width = document.getElementById('htmlSlider1').value - document.getElementById('htmlSlider0').value + "%";
-    
-    document.getElementById('js').style.width = 90- document.getElementById('htmlSlider1').value + "%";
   }
   
+  document.addEventListener("keydown", function(event) {
+        if (event.which == 27) {
+            alert('drawing');
+            drawFiles();
+      }
+  });
   
-  
+  // Start file download.
+  function download() {
+    getCode();
+    download(name + ".html","<html>" + code + "<style>" + css + "</style> <script>" + js + "</script>" + "</html>");
+    download(document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>");
+  }

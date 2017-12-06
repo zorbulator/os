@@ -3,9 +3,6 @@
     user-select: none;
 }
 
-*:focus {
-    outline: none;
-}
 
 .window {
     position: absolute;
@@ -27,7 +24,7 @@
     top: 0;
     margin-top: 0;
     width: 100%;
-    background-color: #777;
+    background-color: #444;
     float: left;
 }
 .bar p {
@@ -149,7 +146,12 @@
 .settingButton:hover {
     background-color: #777;
 }
-
+#name {
+    width: 90%;
+    float: left;
+    font-size: 2vh;
+    margin-top: 1vh;
+}
   
 
 .content {
@@ -157,7 +159,30 @@
     width: 90%;
     height: 90%;
 }
-
+#code {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
+#js {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
+#css {
+    width: 30%;
+    height: 100%;
+    resize: horizontal;
+    font-size: 2vh;
+    margin-top: 3vh;
+    padding: 1vh 1vh;
+}
 .button {
     background-color: green;
     border: none;
@@ -171,46 +196,21 @@
     background-color: #005500;
 }
 
-.codeBox {
-    width: 30%;
-    height: 90%;
-    margin: 0;
-    resize: none;
-    font-size: 2vh;
-    font-family: 'Fira Mono', monospace;
-    border-radius: 3px;
-    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+#htmlBox {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999999999999999;
+    background-color: white;
+    display: none;
 }
-#htmlName {
-    width: 90%;
-    font-size: 3vh;
-    margin: 0.9vh 0.5vh;
-    border: 1px solid #888;
-    border-radius: 4px;
+
+.file {
+    background-color: white;
+    position: fixed;
+    width: 5vh;
+    height: 7vh;
+    z-index: -1;
 }
-.htmlSlider {
-    width: 90%;
-}
-input[type='range'] {
-    overflow: hidden;
-    cursor: pointer;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.2);
-}
-input[type='range'],
-input[type='range']::-webkit-slider-runnable-track,
-input[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none;
-}
-input[type='range']::-webkit-slider-runnable-track {
-    height: 2vh;
-    background: #AAA;
-}
-input[type='range']::-webkit-slider-thumb {
-    position: relative;
-    height: 30vh;
-    width: 2vh;
-    background: steelblue;
-    box-shadow: 0 0 3px 1px rgba(0,0,0,0.5);
-}
-  
-  
