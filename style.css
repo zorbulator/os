@@ -213,4 +213,13 @@
     width: 5vh;
     height: 7vh;
     z-index: -1;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.fileLabel {
+    font-size: 1.5vh;
+    position: absolute;
+    top: 6vh;
+}
+.selectedFile {
+    border: 2px solid #AA1010;
 }

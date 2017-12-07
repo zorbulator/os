@@ -1,8 +1,15 @@
 var windows = document.getElementsByClassName('window');
 var close = document.getElementsByClassName("close");
 var open = document.getElementsByClassName("open");
-
-Lockr.set("files", [{name: "file.zorb", type: "html", content: "<p>This is working!</p>", css: "p { color: red; }", js: "alert('this works!');"}]);
+var rawCode = "";
+var name = "";
+var str = "";
+var css = "";
+var js = "";
+var html = "";
+//Lockr.flush();
+var doubleclick = false;
+var selectedFile = -1;
 var mouseX = 0;
 var mouseY = 0;
 
@@ -46,21 +53,33 @@ function undrag() {
 }*/
 //Make the DIV element draggagle:
 
+function addFile(name, type, content, top, left) {
+    files = Lockr.get('files');
+    files.push({name: name, type: type, content: content, top: top, left: left});
+    Lockr.set('files', files);
+    drawFiles();
+}
+function saveHtmlFile() {
+    rawCode = document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>";
+    name = document.getElementById('name').value;
+    addFile(name, "zorb", rawCode, 500, 500);
+    drawFiles();
+}
+
 function drawFiles() {
     files = Lockr.get('files');
     for (i = 0; i < files.length; i++) {
-        if (files[i].top == undefined) {
-            files[i].top = 200;
-            files[i].left = 500;
-            Lockr.set("files", files);
-        }
         if (document.getElementById('file_' + i) == null) {
             var file = document.createElement("div");
+            var label = document.createElement("p");
+            label.className = "fileLabel";
+            label.innerHTML = files[i].name + "." + files[i].type;
             file.id = 'file_' + i;
             file.className = "file";
             file.style.top = files[i].top + "px";
             file.style.left = files[i].left + "px";
             document.getElementById('desktop').appendChild(file);
+            file.appendChild(label);
             dragElement(file);
         }
     }
@@ -69,11 +88,18 @@ window.onload = function() {
     dragElement(document.getElementById("window0"));
     dragElement(document.getElementById("window1"));
     drawFiles();
-    alert(Lockr.get('files')[0].top);
-
 }
 
-
+function getRawCode(code) {
+    str = code;
+    css = str.match(/<style>(.*?)<\/style>/g).map(function(val){
+     return val.replace(/<\/?style>/g,'');
+    }).join("\n");
+    js = str.match(/<script>(.*?)<\/script>/g).map(function(val){
+     return val.replace(/<\/?script>/g,'');
+    }).join("\n");
+    html = str.split(css).join(" ").split(js).join(" ");
+}
 
 function dragElement(elmnt) {
   var index = elmnt.id.substring(6);
@@ -98,6 +124,22 @@ function dragElement(elmnt) {
         windows[i].style.zIndex = "1";
     }
     elmnt.style.zIndex = "2";
+    if (elmnt.className == "file" || elmnt.className == "file selectedFile") {
+        if (doubleclick == true) {
+            document.getElementById('css').value = css;
+            document.getElementById('js').value = js;
+            document.getElementById('code').value = html;
+            open1();
+        }
+        doubleclick = true;
+        setTimeout(function() {doubleclick = false;}, 500)
+        elmnt.style.zIndex = "-1";
+        for (i = 0; i < document.getElementsByClassName('file').length; i++) {
+            document.getElementsByClassName('file')[i].className = "file";
+        }
+        elmnt.className = "file selectedFile";
+        selectedFile = Number(elmnt.id.substring(5));
+    }
   }
 
   function elementDrag(e) {
@@ -110,10 +152,10 @@ function dragElement(elmnt) {
     // set the element's new position:
     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    if (elmnt.className == "file") {
+    if (elmnt.className == "file selectedFile") {
         files = Lockr.get('files');
         files[Number(elmnt.id.substring(5))].top = (elmnt.offsetTop - pos2);
-
+        files[Number(elmnt.id.substring(5))].left = (elmnt.offsetLeft - pos1);
         Lockr.set("files", files);
     }
   }
