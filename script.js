@@ -7,6 +7,7 @@ var str = "";
 var css = "";
 var js = "";
 var html = "";
+var files = [];
 //Lockr.flush();
 var doubleclick = false;
 var selectedFile = -1;
@@ -63,6 +64,7 @@ function saveHtmlFile() {
     rawCode = document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>";
     name = document.getElementById('name').value;
     addFile(name, "zorb", rawCode, 500, 500);
+    alert('saved file ');
     drawFiles();
 }
 
@@ -71,6 +73,9 @@ function drawFiles() {
     for (i = 0; i < files.length; i++) {
         if (document.getElementById('file_' + i) == null) {
             var file = document.createElement("div");
+            var fileImage = document.createElement("img");
+            fileImage.src = "file.png";
+            fileImage.className = "fileImage";
             var label = document.createElement("p");
             label.className = "fileLabel";
             label.innerHTML = files[i].name + "." + files[i].type;
@@ -80,6 +85,8 @@ function drawFiles() {
             file.style.left = files[i].left + "px";
             document.getElementById('desktop').appendChild(file);
             file.appendChild(label);
+            file.appendChild(fileImage);
+            file.ondragstart = function() { return false; };
             dragElement(file);
         }
     }
@@ -87,9 +94,12 @@ function drawFiles() {
 window.onload = function() {
     dragElement(document.getElementById("window0"));
     dragElement(document.getElementById("window1"));
+    if (Lockr.get('files') == undefined) {
+        Lockr.set('files', [{}]);
+    }
     drawFiles();
 }
-
+/*
 function getRawCode(code) {
     str = code;
     css = str.match(/<style>(.*?)<\/style>/g).map(function(val){
@@ -99,7 +109,7 @@ function getRawCode(code) {
      return val.replace(/<\/?script>/g,'');
     }).join("\n");
     html = str.split(css).join(" ").split(js).join(" ");
-}
+}*/
 
 function dragElement(elmnt) {
   var index = elmnt.id.substring(6);
@@ -125,11 +135,11 @@ function dragElement(elmnt) {
     }
     elmnt.style.zIndex = "2";
     if (elmnt.className == "file" || elmnt.className == "file selectedFile") {
-        if (doubleclick == true) {
+        if (doubleclick == true) {/*
             document.getElementById('css').value = css;
             document.getElementById('js').value = js;
             document.getElementById('code').value = html;
-            open1();
+            open1();*/
         }
         doubleclick = true;
         setTimeout(function() {doubleclick = false;}, 500)

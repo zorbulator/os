@@ -208,12 +208,11 @@
 }
 
 .file {
-    background-color: white;
     position: fixed;
-    width: 5vh;
+    width: 7vh;
     height: 7vh;
     z-index: -1;
-    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    background-image: url("file.png");
 }
 .fileLabel {
     font-size: 1.5vh;
@@ -222,4 +221,8 @@
 }
 .selectedFile {
     border: 2px solid #AA1010;
+}
+.fileImage {
+    height: 7vh;
+    width: 7vh;
 }
