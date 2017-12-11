@@ -226,3 +226,44 @@
     height: 7vh;
     width: 7vh;
 }
+.codeBox {
+    width: 30%;
+    height: 90%;
+    margin: 0;
+    resize: none;
+    font-size: 2vh;
+    font-family: 'Fira Mono', monospace;
+    border-radius: 3px;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+}
+#htmlName {
+    width: 90%;
+    font-size: 3vh;
+    margin: 0.9vh 0.5vh;
+    border: 1px solid #888;
+    border-radius: 4px;
+}
+.htmlSlider {
+    width: 90%;
+}
+input[type='range'] {
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.2);
+}
+input[type='range'],
+input[type='range']::-webkit-slider-runnable-track,
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+    height: 2vh;
+    background: #AAA;
+}
+input[type='range']::-webkit-slider-thumb {
+    position: relative;
+    height: 30vh;
+    width: 2vh;
+    background: steelblue;
+    box-shadow: 0 0 3px 1px rgba(0,0,0,0.5);
+}

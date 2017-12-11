@@ -8,34 +8,37 @@ var css = "";
 var js = "";
 var html = "";
 var files = [];
+//var elmnt;
 //Lockr.flush();
 var doubleclick = false;
 var selectedFile = -1;
 var mouseX = 0;
 var mouseY = 0;
 
+document.getElementById('open0').onclick = open0;
+
 function open0() {
     windows[0].style.transition = 'top 0.5s';
     windows[0].style.top = '10%';
-    setTimeout(function() {windows[0].style.transition = 'none';}, 500);
+    setTimeout(function () { windows[0].style.transition = 'none'; }, 500);
 }
 
 function close0() {
     windows[0].style.transition = 'top 0.5s';
     windows[0].style.top = '-100%';
-    setTimeout(function() {windows[0].style.transition = 'none';}, 500);
+    setTimeout(function () { windows[0].style.transition = 'none'; }, 500);
 }
 
 function open1() {
     windows[1].style.transition = 'top 0.5s';
     windows[1].style.top = '10%';
-    setTimeout(function() {windows[1].style.transition = 'none';}, 500);
+    setTimeout(function () { windows[1].style.transition = 'none'; }, 500);
 }
 
 function close1() {
     windows[1].style.transition = 'top 0.5s';
     windows[1].style.top = '-100%';
-    setTimeout(function() {windows[1].style.transition = 'none';}, 500);
+    setTimeout(function () { windows[1].style.transition = 'none'; }, 500);
 }
 
 /*
@@ -54,14 +57,22 @@ function undrag() {
 }*/
 //Make the DIV element draggagle:
 
+function openwindow(code) {
+    var x = window.open();
+    x.document.open();
+    x.document.write(code);
+    x.document.close();
+    //window.open('data:text/html;charset=utf-8,' + encodeURIComponent("code"));
+}
+
 function addFile(name, type, content, top, left) {
     files = Lockr.get('files');
-    files.push({name: name, type: type, content: content, top: top, left: left});
+    files.push({ name: name, type: type, content: content, top: top, left: left });
     Lockr.set('files', files);
     drawFiles();
 }
 function saveHtmlFile() {
-    rawCode = document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>";
+    rawCode = document.getElementById('name').value + ".html", "<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>";
     name = document.getElementById('name').value;
     addFile(name, "zorb", rawCode, 500, 500);
     alert('saved file ');
@@ -86,12 +97,15 @@ function drawFiles() {
             document.getElementById('desktop').appendChild(file);
             file.appendChild(label);
             file.appendChild(fileImage);
-            file.ondragstart = function() { return false; };
+            file.ondragstart = function () { return false; };
             dragElement(file);
         }
     }
 }
-window.onload = function() {
+
+
+
+window.onload = function () {
     dragElement(document.getElementById("window0"));
     dragElement(document.getElementById("window1"));
     if (Lockr.get('files') == undefined) {
@@ -112,18 +126,19 @@ function getRawCode(code) {
 }*/
 
 function dragElement(elmnt) {
-  var index = elmnt.id.substring(6);
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById("bar" + index)) {
-    /* if present, the header is where you move the DIV from:*/
-    document.getElementById("bar" + index).onmousedown = dragMouseDown;
-  } else {
-    /* otherwise, move the DIV from anywhere inside the DIV:*/
-    elmnt.onmousedown = dragMouseDown;
-  }
+    var index = elmnt.id.substring(6);
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById("bar" + index)) {
+        /* if present, the header is where you move the DIV from:*/
+        document.getElementById("bar" + index).onmousedown = dragMouseDown;
+    } else {
+        /* otherwise, move the DIV from anywhere inside the DIV:*/
+        elmnt.onmousedown = dragMouseDown;
+    }
 
-  function dragMouseDown(e) {
+function dragMouseDown(e) {
     e = e || window.event;
+    
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
@@ -142,7 +157,7 @@ function dragElement(elmnt) {
             open1();*/
         }
         doubleclick = true;
-        setTimeout(function() {doubleclick = false;}, 500)
+        setTimeout(function () { doubleclick = false; }, 500)
         elmnt.style.zIndex = "-1";
         for (i = 0; i < document.getElementsByClassName('file').length; i++) {
             document.getElementsByClassName('file')[i].className = "file";
@@ -150,9 +165,9 @@ function dragElement(elmnt) {
         elmnt.className = "file selectedFile";
         selectedFile = Number(elmnt.id.substring(5));
     }
-  }
+}
 
-  function elementDrag(e) {
+function elementDrag(e) {
     e = e || window.event;
     // calculate the new cursor position:
     pos1 = pos3 - e.clientX;
@@ -168,13 +183,13 @@ function dragElement(elmnt) {
         files[Number(elmnt.id.substring(5))].left = (elmnt.offsetLeft - pos1);
         Lockr.set("files", files);
     }
-  }
+}
 
-  function closeDragElement() {
+function closeDragElement() {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
-  }
+}
 }
 
 function settingSave() {
@@ -188,40 +203,60 @@ function download(filename, text) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
-  
+
     element.style.display = 'none';
     document.body.appendChild(element);
-  
+
     element.click();
-  
+
     document.body.removeChild(element);
-  }
-  
-  function getCode() {
-    var name = document.getElementById('name').value;
-    var code = document.getElementById('code').value;
-    var css = document.getElementById('css').value;
-    var js = document.getElementById('js').value;
-  }
-  
-  function run() {
+}
+
+function generateCode() {
+    html = document.getElementById('html').value;
+    css = document.getElementById('css').value;
+    js = document.getElementById('js').value;
+    code = html + "<st" + "yle>" + css + "</st" + "yle> <scr" + "ipt>" + js + "</scr" + "ipt>";
+}
+function run() {
     getCode();
     document.getElementById('htmlBox').style.display = 'block';
     document.getElementById('htmlBox').innerHTML = document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style>";
     eval(document.getElementById('js').value);
-    
-  }
-  
-  document.addEventListener("keydown", function(event) {
-        if (event.which == 27) {
-            alert('drawing');
-            drawFiles();
-      }
-  });
-  
-  // Start file download.
-  function download() {
+}
+
+document.getElementById('openCode').onclick = function () {
+    generateCode();
+    openwindow(code);
+}
+document.getElementById('downloadCode').onclick = function () {
+    generateCode();
+    download(document.getElementById('htmlName').value + ".html", code);
+}
+
+document.getElementById('htmlSlider0').oninput = htmlSliderChange;
+document.getElementById('htmlSlider1').oninput = htmlSliderChange;
+function htmlSliderChange() {
+    //alert('test');
+    if (document.getElementById('htmlSlider0').value >= document.getElementById('htmlSlider1').value) {
+        document.getElementById('htmlSlider0').value = document.getElementById('htmlSlider1').value - 1;
+    }
+    document.getElementById('html').style.width = document.getElementById('htmlSlider0').value + "%";
+
+    document.getElementById('css').style.width = document.getElementById('htmlSlider1').value - document.getElementById('htmlSlider0').value + "%";
+    document.getElementById('js').style.width = 90 - document.getElementById('htmlSlider1').value + "%";
+}
+
+document.addEventListener("keydown", function (event) {
+    if (event.which == 27) {
+        alert('drawing');
+        drawFiles();
+    }
+});
+
+// Start file download.
+function download() {
     getCode();
-    download(name + ".html","<html>" + code + "<style>" + css + "</style> <script>" + js + "</script>" + "</html>");
-    download(document.getElementById('name').value + ".html","<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>");
-  }
+    download(name + ".html", "<html>" + code + "<style>" + css + "</style> <script>" + js + "</script>" + "</html>");
+    download(document.getElementById('name').value + ".html", "<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>");
+}
