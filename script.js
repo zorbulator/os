@@ -1,6 +1,5 @@
 var windows = document.getElementsByClassName('window');
 var close = document.getElementsByClassName("close");
-var open = document.getElementsByClassName("open");
 var rawCode = "";
 var name = "";
 var str = "";
@@ -65,6 +64,17 @@ function openwindow(code) {
     //window.open('data:text/html;charset=utf-8,' + encodeURIComponent("code"));
 }
 
+function rawCodeFromInput() {
+    rawCode = "<html>" + document.getElementById('html').value + "<!-->ZORBULATOR HTML FILE DIVIDER<--><style>" + document.getElementById('css').value + "</style> <!-->ZORBULATOR HTML FILE DIVIDER<--> <script>" + document.getElementById('js').value + "</script>" + "</html>";
+}
+
+function splitZCode(code) {
+    var splitCode = code.split("<!-->ZORBULATOR HTML FILE DIVIDER<-->");
+    html = splitCode.join("\n").split(splitCode[1]).join("\n").split(splitCode[2]).join("\n").substring(6);
+    css = splitCode[1].substring(7, splitCode[1].length - 8);
+    js = splitCode[2].substring(8, splitCode[2].length - 16);
+}
+
 function addFile(name, type, content, top, left) {
     files = Lockr.get('files');
     files.push({ name: name, type: type, content: content, top: top, left: left });
@@ -72,10 +82,10 @@ function addFile(name, type, content, top, left) {
     drawFiles();
 }
 function saveHtmlFile() {
-    rawCode = document.getElementById('name').value + ".html", "<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>";
-    name = document.getElementById('name').value;
+    rawCodeFromInput();
+    name = document.getElementById('htmlName').value;
+    console.log(rawCode);
     addFile(name, "zorb", rawCode, 500, 500);
-    alert('saved file ');
     drawFiles();
 }
 
@@ -112,6 +122,8 @@ window.onload = function () {
         Lockr.set('files', [{}]);
     }
     drawFiles();
+    //splitZCode("<html><p>HTML</p><!-->ZORBULATOR HTML FILE DIVIDER<--><style>CSS code here css css</style><!-->ZORBULATOR HTML FILE DIVIDER<--><script>JS This is JavaScript</script></html>");
+    //console.log('html: ' + html + 'css: ' + css + 'js: ' + js);
 }
 /*
 function getRawCode(code) {
@@ -150,11 +162,15 @@ function dragMouseDown(e) {
     }
     elmnt.style.zIndex = "2";
     if (elmnt.className == "file" || elmnt.className == "file selectedFile") {
-        if (doubleclick == true) {/*
+        var fileIndex = Number(elmnt.id.substring(5));
+        console.log(files[fileIndex].content);
+        if (doubleclick == true) {
+            files = Lockr.get('files');
+            splitZCode(files[fileIndex].content);
             document.getElementById('css').value = css;
             document.getElementById('js').value = js;
-            document.getElementById('code').value = html;
-            open1();*/
+            document.getElementById('html').value = html;
+            open1();
         }
         doubleclick = true;
         setTimeout(function () { doubleclick = false; }, 500)
@@ -218,12 +234,7 @@ function generateCode() {
     js = document.getElementById('js').value;
     code = html + "<st" + "yle>" + css + "</st" + "yle> <scr" + "ipt>" + js + "</scr" + "ipt>";
 }
-function run() {
-    getCode();
-    document.getElementById('htmlBox').style.display = 'block';
-    document.getElementById('htmlBox').innerHTML = document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style>";
-    eval(document.getElementById('js').value);
-}
+
 
 document.getElementById('openCode').onclick = function () {
     generateCode();
@@ -254,9 +265,3 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
-// Start file download.
-function download() {
-    getCode();
-    download(name + ".html", "<html>" + code + "<style>" + css + "</style> <script>" + js + "</script>" + "</html>");
-    download(document.getElementById('name').value + ".html", "<html>" + document.getElementById('code').value + "<style>" + document.getElementById('css').value + "</style> <script>" + document.getElementById('js').value + "</script>" + "</html>");
-}
