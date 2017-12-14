@@ -71,8 +71,8 @@ function rawCodeFromInput() {
 function splitZCode(code) {
     var splitCode = code.split("<!-->ZORBULATOR HTML FILE DIVIDER<-->");
     html = splitCode.join("\n").split(splitCode[1]).join("\n").split(splitCode[2]).join("\n").substring(6);
-    css = splitCode[1].substring(7, splitCode[1].length - 8);
-    js = splitCode[2].substring(8, splitCode[2].length - 16);
+    css = splitCode[1].substring(7, splitCode[1].length - 9);
+    js = splitCode[2].substring(9, splitCode[2].length - 16);
 }
 
 function addFile(name, type, content, top, left) {
@@ -85,6 +85,17 @@ function saveHtmlFile() {
     rawCodeFromInput();
     name = document.getElementById('htmlName').value;
     console.log(rawCode);
+    files = Lockr.get('files');
+    var fileExists = false;
+    for (i = 0; i < files.length; i++) {
+        if (name == files[i].name) {
+            files[i].content = rawCode;
+            fileExists = true;
+        }
+    }
+    if (!fileExists) {
+        addFile(name, "zorb", rawCode, 500, 500);
+    }
     addFile(name, "zorb", rawCode, 500, 500);
     drawFiles();
 }
@@ -265,3 +276,49 @@ document.addEventListener("keydown", function (event) {
     }
 });
 
+var item0 = document.getElementById('item0');
+var item1 = document.getElementById('item1');
+var menu = document.getElementById('menu0');
+var selectedFile;
+document.addEventListener('contextmenu', function(ev) {
+ ev.preventDefault();
+ menu.style.left = ev.clientX + 'px';
+ menu.style.top = ev.clientY + 'px';
+ files = Lockr.get('files');
+ item0.innerHTML = "Reset OS";
+ item1.innerHTML = "Change Background";
+ item0.onclick = fileClear;
+ item1.onclick = open0;
+
+ for (i = 0; i < files.length; i++) {
+  selectedFile = document.getElementById('files_' + i);
+  if (ev.target == selectedFile) {
+   item0.innerHTML = "Open";
+   item1.innerHTML = "Delete";
+   item0.onclick = function() {
+       fileOpen(i);
+   }
+   //item1.onclick = fileDelete(i);
+  }
+ menu.style.display = "block";
+ }
+}, false);
+
+document.addEventListener("click", function(event) {
+ menu.style.display = "none";
+}, false);
+
+function fileClear() {
+    if (confirm('Are you sure you want to clear all files?')) {
+        Lockr.flush();
+        window.location.reload(false); 
+    }
+}
+function fileOpen(index) {
+    files = Lockr.get('files');
+    splitZCode(files[index].content);
+    document.getElementById('css').value = css;
+    document.getElementById('js').value = js;
+    document.getElementById('html').value = html;
+    open1();
+}

@@ -247,3 +247,23 @@ input[type='range']::-webkit-slider-thumb {
     background: steelblue;
     box-shadow: 0 0 3px 1px rgba(0,0,0,0.5);
 }
+
+.menu {
+    position: fixed;
+    list-style: none;
+    text-align: center;
+    display: none;
+}
+
+.menu li {
+    transition: 0.1s;
+    width: 100%;
+    cursor: url(http://steamcommunity-a.akamaihd.net/public/images/login/throbber.gif), pointer;
+    background-color: #F0F0F0;
+    padding: 1vh 1vh;
+}
+
+.menu li:hover {
+    background-color: #E04040;
+}
+   
