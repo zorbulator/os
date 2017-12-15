@@ -108,6 +108,7 @@ function drawFiles() {
             var fileImage = document.createElement("img");
             fileImage.src = "file.png";
             fileImage.className = "fileImage";
+            fileImage.id = 'fileimg_' + i;
             var label = document.createElement("p");
             label.className = "fileLabel";
             label.innerHTML = files[i].name + "." + files[i].type;
@@ -160,37 +161,39 @@ function dragElement(elmnt) {
     }
 
 function dragMouseDown(e) {
-    e = e || window.event;
-    
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-    for (i = 0; i < windows.length; i++) {
-        windows[i].style.zIndex = "1";
-    }
-    elmnt.style.zIndex = "2";
-    if (elmnt.className == "file" || elmnt.className == "file selectedFile") {
-        var fileIndex = Number(elmnt.id.substring(5));
-        console.log(files[fileIndex].content);
-        if (doubleclick == true) {
-            files = Lockr.get('files');
-            splitZCode(files[fileIndex].content);
-            document.getElementById('css').value = css;
-            document.getElementById('js').value = js;
-            document.getElementById('html').value = html;
-            open1();
+    if (e.which == 1) {
+        e = e || window.event;
+        
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+        for (i = 0; i < windows.length; i++) {
+            windows[i].style.zIndex = "1";
         }
-        doubleclick = true;
-        setTimeout(function () { doubleclick = false; }, 500)
-        elmnt.style.zIndex = "-1";
-        for (i = 0; i < document.getElementsByClassName('file').length; i++) {
-            document.getElementsByClassName('file')[i].className = "file";
+        elmnt.style.zIndex = "2";
+        if (elmnt.className == "file" || elmnt.className == "file selectedFile") {
+            var fileIndex = Number(elmnt.id.substring(5));
+            console.log(files[fileIndex].content);
+            if (doubleclick == true) {
+                files = Lockr.get('files');
+                splitZCode(files[fileIndex].content);
+                document.getElementById('css').value = css;
+                document.getElementById('js').value = js;
+                document.getElementById('html').value = html;
+                open1();
+            }
+            doubleclick = true;
+            setTimeout(function () { doubleclick = false; }, 500)
+            elmnt.style.zIndex = "-1";
+            for (i = 0; i < document.getElementsByClassName('file').length; i++) {
+                document.getElementsByClassName('file')[i].className = "file";
+            }
+            elmnt.className = "file selectedFile";
+            selectedFile = Number(elmnt.id.substring(5));
         }
-        elmnt.className = "file selectedFile";
-        selectedFile = Number(elmnt.id.substring(5));
     }
 }
 
@@ -291,12 +294,25 @@ document.addEventListener('contextmenu', function(ev) {
  item1.onclick = open0;
 
  for (i = 0; i < files.length; i++) {
-  selectedFile = document.getElementById('files_' + i);
-  if (ev.target == selectedFile) {
+  selectedFile = document.getElementById('file_' + i);
+  selectedFileImage = document.getElementById('fileimg_' + i);
+  console.log('Testing for element with id ' + selectedFile.id);
+  console.log('Clicked element has id ' + ev.target.className);
+  if (ev.target == selectedFile || ev.target == selectedFileImage) {
+    
+    console.log('Found element' + selectedFile.id);
    item0.innerHTML = "Open";
    item1.innerHTML = "Delete";
    item0.onclick = function() {
-       fileOpen(i);
+    files = Lockr.get('files');
+    console.log('number: ' + i);
+    console.log('files is ' + files.length + ' long');
+    console.log('Contents are: ' + files[1].content);
+    splitZCode(files[i].content);
+    document.getElementById('css').value = css;
+    document.getElementById('js').value = js;
+    document.getElementById('html').value = html;
+    open1();
    }
    //item1.onclick = fileDelete(i);
   }
