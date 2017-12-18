@@ -87,12 +87,12 @@ function saveHtmlFile() {
     console.log(rawCode);
     files = Lockr.get('files');
     var fileExists = false;
-    for (i = 0; i < files.length; i++) {
+   /* for (i = 0; i < files.length; i++) {
         if (name == files[i].name) {
             files[i].content = rawCode;
             fileExists = true;
         }
-    }
+    }*/
     if (!fileExists) {
         addFile(name, "zorb", rawCode, 500, 500);
     }
@@ -103,7 +103,7 @@ function saveHtmlFile() {
 function drawFiles() {
     files = Lockr.get('files');
     for (i = 0; i < files.length; i++) {
-        if (document.getElementById('file_' + i) == null) {
+        if (document.getElementById('file_' + i) == null && files[i] != null) {
             var file = document.createElement("div");
             var fileImage = document.createElement("img");
             fileImage.src = "file.png";
@@ -121,6 +121,10 @@ function drawFiles() {
             file.appendChild(fileImage);
             file.ondragstart = function () { return false; };
             dragElement(file);
+        }
+        if (document.getElementById('file_' + i) != null && files[i] == null) {
+            delete files[i];
+            Lockr.set('files', files);
         }
     }
 }
@@ -296,25 +300,31 @@ document.addEventListener('contextmenu', function(ev) {
  for (i = 0; i < files.length; i++) {
   selectedFile = document.getElementById('file_' + i);
   selectedFileImage = document.getElementById('fileimg_' + i);
-  console.log('Testing for element with id ' + selectedFile.id);
-  console.log('Clicked element has id ' + ev.target.className);
+  //console.log('Testing for element with id ' + selectedFile.id);
+  //console.log('Clicked element has id ' + ev.target.className);
   if (ev.target == selectedFile || ev.target == selectedFileImage) {
-    
+    var index = i;
     console.log('Found element' + selectedFile.id);
+    console.log('Index of file is ' + index);
    item0.innerHTML = "Open";
    item1.innerHTML = "Delete";
    item0.onclick = function() {
     files = Lockr.get('files');
-    console.log('number: ' + i);
+    console.log('number: ' + index);
     console.log('files is ' + files.length + ' long');
     console.log('Contents are: ' + files[1].content);
-    splitZCode(files[i].content);
+    splitZCode(files[index].content);
     document.getElementById('css').value = css;
     document.getElementById('js').value = js;
     document.getElementById('html').value = html;
     open1();
    }
-   //item1.onclick = fileDelete(i);
+   item1.onclick = function() {
+       //console.log('Deleting file ' + index + ' with name ' + files[index].name);
+       delete files[index];
+       Lockr.set('files', files);
+       drawFiles();
+   };
   }
  menu.style.display = "block";
  }
